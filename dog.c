@@ -1,46 +1,25 @@
-#include <stdio.h>
-#include <string.h>
+#include "dog.h"
 
-#define MAX_NAME_LEN 25
-
-void bark() {
+static void _dog_h_bark() {
 	printf("Woof\n");
 }
 
-void eat() {
+static void _dog_h_eat() {
 	printf("Eating...\n");
 	printf("Done eating.\n");
 }
 
-void print();
-
-typedef struct {
-	char name[MAX_NAME_LEN];
-	unsigned char age;
-	void (*bark)();
-	void (*eat)();
-	void (*print)();
-} dog;
-
-void print(const dog d) {
-	printf("\n\nDOG\nName: %s\nAge: %hh\n", d.name, d.age);
-	printf("Bark action:\n"); d.bark();
-	printf("Eat action:\n"); d.eat();
+void _dog_h_print(const dog d) {
+	printf("--- DOG DATA ---\nName: %s\nAge: %u\n", d.name, d.age);
+	printf("--- DOG ACTIONS ---\n");
+	printf("Bark:\n"); d.bark();
+	printf("Eat:\n"); d.eat();
 }
 
-dog create_dog(char name[], unsigned char age) {
-	dog d = {.age = age, .bark = bark, .eat = eat, .print = print};
+dog _dog_h_initialize(const char name[], const unsigned char age) {
+	dog d = {"", 0, _dog_h_bark, _dog_h_eat, _dog_h_print};
 	strncpy(d.name, name, MAX_NAME_LEN);
+	d.age = age;
 	return d;
-}
-
-int main() {
-	dog d = create_dog("pippo", 4);
-	printf("%s, %d\n", d.name, d.age);
-	d.bark();
-	d.eat();
-
-	d.print(d);
-	return 0;
 }
 
